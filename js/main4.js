@@ -1,18 +1,10 @@
-// In any game, one of the important thing in the game is that the 'game-loop', so when we are playing 
-// the game, then , our screen is painted repeatedly, screen ko baar baar paint kara jata h , and this
-// is done by game-loop.
-// So game loop is an important component of the game, and we are using the game loop,
-// So we are using requestAnimationFrame, the benefits of using this is :there is bo flicker, and it tell
-// javascript engine , what we want to achieve, more clearly.
-// On the othe hand, set-interval 
-// -------------------------------------------------------------------
-// Game constants and variable
 let inputDir = {x: 0,y: 0};
 const foodSound = new Audio('music/food.mp3');
 const gameOverSound = new Audio('music/gameover.mp3');
 const moveSound  = new Audio('music/move.mp3');
 const musicSound = new Audio('music/music.mp3');
 const board = document.getElementById("board");
+let isGameOver = false;
 let speed = 10;
 let score = 0;
 let level = 1;
@@ -57,35 +49,40 @@ function isCollide(snake) {
 
 function gameEngine(){
     // Part 1: Updating the snake array & food 
-    if(isCollide(snakeArr)){
-       
-        // createLottiePlayer();
-        // playCollisionAnimation();
+    if(isCollide(snakeArr) && !isGameOver){
+        isGameOver = true;
+        sum();
+        createLottiePlayer();
+        playCollisionAnimation();
         // ---------------------------------------------------------------------------------
         gameOverSound.play();
         musicSound.pause();
-        inputDir = {x: 0, y: 0};
-        alert("Game Over!; Press any key to play again!");
         // sum(2,3);
-        snakeArr = [{x: 13, y: 15 }];
-        musicSound.play();
-        score = 0;
-       
-        // playCollisionAnimation();
+        setTimeout(() => {
+            inputDir = {x: 0, y: 0};
+            alert("Game Over!; Press any key to play again!");
+            isGameOver = false;
+            snakeArr = [{x: 13, y: 15 }];
+            musicSound.play();
+            score = 0;
+        }, 2000);
         // ------------------------------------------------------------------------
         // createLottiePlayer();
         // playCollisionAnimation();
       
         // -----------------------------------------------------------------------------
-    }
+    } else if(!isCollide(snakeArr)){
 // If you have eaten the food, increment the score and regenerate the food
 
       if(snakeArr[0].y === food.y && snakeArr[0].x === food.x){
         score += 1;
         if (score % 10 === 0) {
-            level++;
+           levelCount =  level++;
             speed +=10;
-             // decrease speed to increase difficulty
+             // increase speed to increase difficulty
+            //  if(levelCount = 2){
+            //     confetti.start();
+            //  }
         }
         if(score>hiscoreval){
                 hiscoreval = score;
@@ -139,7 +136,7 @@ function gameEngine(){
         board.appendChild(foodElement); 
         
     }
-
+}
 // Main logic starts here:
 // let hiscore = localStorage.getItem("hiscore");
 // if(hiscore === null){
@@ -243,7 +240,6 @@ function createLottiePlayer() {
 
     // Append lottiePlayer to the board element
     board.appendChild(lottiePlayer);
-    return lottiePlayer;
 }
 
 // Wait for the DOM content to load
@@ -268,76 +264,40 @@ document.addEventListener("DOMContentLoaded", function() {
     createLottiePlayer();
     
     // Call the function to play the animation after the snake collides
-    playCollisionAnimation();
+    // playCollisionAnimation();
 });
-// document.addEventListener("DOMContentLoaded", function() {
-//     // Call the function to create and append the lottie-player element
-//     createLottiePlayer();
-    
-//     // Call the function to play the animation after the snake collides
-//     playCollisionAnimation();
-// });
 
-
-// function sum(){
-//  console.log("prachi");
-// }
-
-// 2)--------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-// -------------------------------------------------------------------------------------------------
-
-// Animation after completion of the level of the game:
-
+// ---------------LEVEL COMPLETION ANIMATION-------------------------------------
 // function createLevelPlayer() {
-//     const levelPlayer = document.createElement('level-player');
+//     const levelPlayer = document.createElement('lottie-player');
 //     levelPlayer.src = "https://lottie.host/ba5cfeed-b5ac-42a0-ba26-3e5d7f608c6b/ypZ6Q8N1f9.json";
-//     // lottiePlayer.background = "#22292F";
-//     levelPlayer.background="##FFFFFF"
-//     levelPlayer.speed = "1";
 //     levelPlayer.style.width = "300px";
 //     levelPlayer.style.height = "300px";
-//     levelPlayer.loop = true;
+//     levelPlayer.loop = false;
 //     levelPlayer.autoplay = false; // Set autoplay to false initially
-
-//     // Event listener to play the animation when the user interacts with the document
-//     // document.addEventListener("click", function() {
-//     //     lottiePlayer.play();
-//     // }, { once: true }); // Remove the event listener after it's triggered once
-
-//     // Append lottiePlayer to the board element
 //     board.appendChild(levelPlayer);
 // }
+// //
 
-// // Wait for the DOM content to load
-// document.addEventListener("DOMContentLoaded", function() {
-//     // Call the function to create and append the lottie-player element
-//     createLevelPlayer();
-    
-// });
-//2 ---------------------------------------------------------------------------------
-// Function to play the animation when the snake collides
-
-// function playCollisionAnimation() {
-//     const levelPlayer = document.querySelector('level-player');
+// // Function to play the animation for level completion
+// function playLevelAnimation() {
+//     const levelPlayer = document.querySelector('lottie-player');
 //     if (levelPlayer) {
 //         levelPlayer.autoplay = true; // Set autoplay to true to play the animation
 //     }
 // }
+// // document.addEventListener("DOMContentLoaded", function(){
+// //     createLevelCompleted();
+// //     playLevelAnimation();
+// // });
 
-// // Wait for the DOM content to load
-// document.addEventListener("DOMContentLoaded", function() {
-//     // Call the function to create and append the level-player element
-//     createLevelPlayer();
-    
-//     // Call the function to play the animation after the snake collides
-//     playCollisionAnimation();
-// });
+
+
+
+// ----------------------------------------------------------------------
+function sum(){
+ console.log("prachi");
+}
+
+
 

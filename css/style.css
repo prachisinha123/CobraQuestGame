@@ -1,9 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=New+Tegomin&display=swap');
+@import url(https://fonts.googleapis.com/css2?family=Potta+One&display=swap);
 *{
     padding: 0;
     margin: 0;
 }
-
+h2{
+  font-size:4rem;
+  color:#fff200;
+  font-weight:500;
+  text-shadow:4px 3px #e6198f;
+  font-family:'Potta One',cursive;
+  margin-top: 0%;
+  
+}
+/* h2{
+  display: flex;
+  align-items: center;
+} */
 .body{
     background: url("../img/bg.jpg"); 
     min-height: 100vh;
@@ -276,7 +289,9 @@ lottie-player::after {
 lottie-player.playing::after {
   display: block; 
 }  */
-
+#score{
+  display: none;
+}
 
 
 
